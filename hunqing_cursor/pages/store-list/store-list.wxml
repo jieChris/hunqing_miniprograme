@@ -1,0 +1,55 @@
+<!--pages/store-list/store-list.wxml-->
+<navigation-bar title="商户列表" back="{{true}}" color="white" background="#E91E63"></navigation-bar>
+
+<scroll-view class="scrollarea" scroll-y type="list">
+  <!-- 排序栏 -->
+  <view class="sort-bar">
+    <view class="sort-title">排序方式：</view>
+    <view class="sort-options">
+      <view 
+        wx:for="{{sortOptions}}" 
+        wx:key="value" 
+        class="sort-item {{sortType === item.value ? 'active' : ''}}"
+        data-sort="{{item.value}}"
+        bindtap="onSortChange"
+      >
+        {{item.label}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 商户列表 -->
+  <view class="stores-list">
+    <view 
+      wx:for="{{stores}}" 
+      wx:key="id" 
+      class="store-item card"
+      data-store="{{item}}"
+      bindtap="storelick"
+    >
+      <image class="store-image" src="{{item.image}}" mode="aspectFill"></image>
+      <view class="store-info">
+        <view class="store-header">
+          <text class="store-name">{{item.name}}</text>
+          <view class="store-rating">
+            <text class="rating-star">★</text>
+            <text class="rating-value">{{item.rating}}</text>
+          </view>
+        </view>
+        <view class="store-meta">
+          <text class="meta-item">距离 {{item.distanceText}}</text>
+          <text class="meta-item">人气 {{item.popularity}}</text>
+          <text class="meta-item">商品 {{item.categoryCount}}种</text>
+        </view>
+        <view class="store-address text-gray">{{item.address}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{stores.length === 0}}" class="empty-state">
+    <image class="empty-image" src="/images/common/empty.png" mode="aspectFit"></image>
+    <text class="empty-text">暂无商户信息</text>
+  </view>
+</scroll-view>
+

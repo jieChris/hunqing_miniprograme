@@ -1,0 +1,17 @@
+<!--components/product-card/product-card.wxml-->
+<view class="product-card" bindtap="onTap">
+  <image class="product-image" src="{{product.image}}" mode="aspectFill"></image>
+  <view class="product-info">
+    <view class="product-title">{{product.title}}</view>
+    <view class="product-rating">
+      <text class="rating-text">★</text>
+      <text class="rating-value">{{product.rating}}</text>
+      <text class="sales-text">已售{{product.sales}}</text>
+    </view>
+    <view class="product-price">
+      <text class="current-price text-primary">¥{{priceText}}</text>
+      <text class="original-price" wx:if="{{originalPriceText}}">¥{{originalPriceText}}</text>
+    </view>
+  </view>
+</view>
+

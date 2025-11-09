@@ -1,0 +1,37 @@
+/* components/category-btn/category-btn.wxss */
+.category-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 10rpx;
+  border-radius: 16rpx;
+  background: #ffffff;
+  border: 2rpx solid var(--border-color);
+  transition: all 0.3s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.category-btn:active {
+  background: var(--light-red);
+  border-color: var(--primary-red);
+  transform: scale(0.95);
+}
+
+.category-icon {
+  width: 80rpx;
+  height: 80rpx;
+  margin-bottom: 10rpx;
+}
+
+.category-name {
+  font-size: 24rpx;
+  color: var(--text-dark);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+

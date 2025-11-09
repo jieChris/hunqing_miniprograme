@@ -1,0 +1,86 @@
+/**app.wxss**/
+/* 全局样式 - 红色主题 */
+
+/* 主题颜色变量 */
+page {
+  --primary-red: #E91E63;
+  --deep-red: #C2185B;
+  --light-red: #F8BBD0;
+  --accent-red: #FF1744;
+  --gold: #FFD700;
+  --warm-white: #FFF8F0;
+  --text-dark: #333333;
+  --text-gray: #666666;
+  --border-color: #FFE0E6;
+  background-color: var(--warm-white);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* 通用容器 */
+.container {
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+/* 通用按钮样式 */
+.btn-primary {
+  background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%);
+  color: #ffffff;
+  border-radius: 50rpx;
+  padding: 24rpx 60rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  border: none;
+}
+
+.btn-primary::after {
+  border: none;
+}
+
+/* 通用卡片样式 */
+.card {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(233, 30, 99, 0.1);
+}
+
+/* 文本样式 */
+.text-primary {
+  color: var(--primary-red);
+}
+
+.text-gold {
+  color: var(--gold);
+}
+
+.text-dark {
+  color: var(--text-dark);
+}
+
+.text-gray {
+  color: var(--text-gray);
+}
+
+/* 清除浮动 */
+.clearfix::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* 文本省略 */
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-ellipsis-2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+} 

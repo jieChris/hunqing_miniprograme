@@ -1,0 +1,82 @@
+<!--pages/store-detail/store-detail.wxml-->
+<navigation-bar title="商户详情" back="{{true}}" color="white" background="#E91E63"></navigation-bar>
+
+<scroll-view class="scrollarea" scroll-y type="list" wx:if="{{store}}">
+  <!-- 商户头部图片 -->
+  <swiper class="store-swiper" indicator-dots="{{true}}" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FFD700">
+    <swiper-item wx:for="{{store.images}}" wx:key="index">
+      <image class="store-image" src="{{item}}" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+
+  <!-- 商户基本信息 -->
+  <view class="store-info card">
+    <view class="store-header">
+      <text class="store-name">{{store.name}}</text>
+      <view class="store-rating">
+        <text class="rating-star">★</text>
+        <text class="rating-value">{{store.rating}}</text>
+      </view>
+    </view>
+    <view class="store-meta">
+      <view class="meta-item" bindtap="viewLocation">
+        <text class="meta-icon">📍</text>
+        <text class="meta-text">{{store.distanceText}} | {{store.address}}</text>
+      </view>
+      <view class="meta-item" bindtap="makePhoneCall" wx:if="{{store.phone}}">
+        <text class="meta-icon">📞</text>
+        <text class="meta-text">{{store.phone}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 商户描述 -->
+  <view class="store-description card" wx:if="{{store.description}}">
+    <view class="section-title">商户介绍</view>
+    <text class="description-text">{{store.description}}</text>
+  </view>
+
+  <!-- 服务项目 -->
+  <view class="store-services card" wx:if="{{store.services && store.services.length > 0}}">
+    <view class="section-title">服务项目</view>
+    <view class="services-list">
+      <view class="service-item" wx:for="{{store.services}}" wx:key="index">
+        <text class="service-icon">✓</text>
+        <text class="service-name">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 商户商品 -->
+  <view class="store-products card" wx:if="{{products && products.length > 0}}">
+    <view class="section-title">商品套餐</view>
+    <view class="products-list">
+      <view 
+        class="product-item" 
+        wx:for="{{products}}" 
+        wx:key="id"
+        data-product="{{item}}"
+        bindtap="onProductTap"
+      >
+        <product-card product="{{item}}"></product-card>
+      </view>
+    </view>
+  </view>
+
+  <!-- 网友点评 -->
+  <view class="store-comments card">
+    <view class="section-title">网友点评</view>
+    <view class="comments-list">
+      <comment-item wx:for="{{comments}}" wx:key="id" comment="{{item}}"></comment-item>
+    </view>
+    <view wx:if="{{comments.length === 0}}" class="no-comments">
+      <text>暂无评论</text>
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 加载中 -->
+<view wx:if="{{!store}}" class="loading-container">
+  <text>加载中...</text>
+</view>
+

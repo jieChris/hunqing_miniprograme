@@ -1,0 +1,37 @@
+<!--pages/index/index.wxml-->
+<navigation-bar title="开心婚庆" back="{{false}}" color="white" background="#E91E63"></navigation-bar>
+
+<scroll-view class="scrollarea" scroll-y type="list">
+  <!-- Banner轮播图 -->
+  <swiper class="banner-swiper" indicator-dots="{{true}}" autoplay="{{true}}" interval="{{3000}}" duration="{{500}}" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FFD700">
+    <swiper-item wx:for="{{banners}}" wx:key="id">
+      <image class="banner-image" src="{{item.image}}" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+
+  <!-- 分类按钮区域 -->
+  <view class="category-section">
+    <view class="section-title">
+      <text class="title-text">服务分类</text>
+      <view class="title-decoration"></view>
+    </view>
+    <view class="category-grid">
+      <view wx:for="{{categories}}" wx:key="id" class="category-item" data-category="{{item}}" bindtap="fucClick">
+        <category-btn category="{{item}}"></category-btn>
+      </view>
+    </view>
+  </view>
+
+  <!-- 猜你喜欢区域 -->
+  <view class="recommend-section">
+    <view class="section-title">
+      <text class="title-text">猜你喜欢</text>
+      <view class="title-decoration"></view>
+    </view>
+    <view class="products-list">
+      <view wx:for="{{recommendProducts}}" wx:key="id" class="product-item" data-product="{{item}}" bindtap="goodDetail">
+        <product-card product="{{item}}"></product-card>
+      </view>
+    </view>
+  </view>
+</scroll-view>

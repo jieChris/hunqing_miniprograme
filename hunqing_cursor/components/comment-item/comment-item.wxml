@@ -1,0 +1,17 @@
+<!--components/comment-item/comment-item.wxml-->
+<view class="comment-item">
+  <view class="comment-header">
+    <view class="user-info">
+      <image class="user-avatar" src="{{comment.avatar || '/images/common/placeholder.png'}}" mode="aspectFill"></image>
+      <view class="user-details">
+        <text class="user-name">{{comment.userName}}</text>
+        <view class="rating-stars">
+          <text wx:for="{{comment.rating}}" wx:key="index" class="star">★</text>
+        </view>
+      </view>
+    </view>
+    <text class="comment-date">{{formatDate(comment.date)}}</text>
+  </view>
+  <view class="comment-content">{{comment.content}}</view>
+</view>
+

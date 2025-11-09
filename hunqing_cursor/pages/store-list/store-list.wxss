@@ -1,0 +1,147 @@
+/* pages/store-list/store-list.wxss */
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--warm-white);
+}
+
+.scrollarea {
+  flex: 1;
+  overflow-y: hidden;
+}
+
+/* 排序栏 */
+.sort-bar {
+  background: #ffffff;
+  padding: 25rpx 30rpx;
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2rpx 10rpx rgba(233, 30, 99, 0.1);
+}
+
+.sort-title {
+  font-size: 28rpx;
+  color: var(--text-dark);
+  margin-right: 20rpx;
+}
+
+.sort-options {
+  display: flex;
+  flex: 1;
+  gap: 20rpx;
+}
+
+.sort-item {
+  padding: 10rpx 25rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  color: var(--text-gray);
+  border: 2rpx solid var(--border-color);
+  background: #ffffff;
+  transition: all 0.3s;
+}
+
+.sort-item.active {
+  color: #ffffff;
+  background: var(--primary-red);
+  border-color: var(--primary-red);
+}
+
+/* 商户列表 */
+.stores-list {
+  padding: 0 30rpx 30rpx;
+}
+
+.store-item {
+  display: flex;
+  padding: 0;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+}
+
+.store-image {
+  width: 200rpx;
+  height: 200rpx;
+  flex-shrink: 0;
+}
+
+.store-info {
+  flex: 1;
+  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.store-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.store-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--text-dark);
+  flex: 1;
+}
+
+.store-rating {
+  display: flex;
+  align-items: center;
+  margin-left: 15rpx;
+}
+
+.rating-star {
+  color: var(--gold);
+  font-size: 24rpx;
+  margin-right: 5rpx;
+}
+
+.rating-value {
+  font-size: 26rpx;
+  color: var(--text-dark);
+}
+
+.store-meta {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 10rpx;
+  font-size: 24rpx;
+}
+
+.meta-item {
+  color: var(--text-gray);
+}
+
+.store-address {
+  font-size: 24rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+}
+
+.empty-image {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 30rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: var(--text-gray);
+}
+

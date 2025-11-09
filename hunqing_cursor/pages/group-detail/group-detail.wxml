@@ -1,0 +1,92 @@
+<!--pages/group-detail/group-detail.wxml-->
+<navigation-bar title="团购详情" back="{{true}}" color="white" background="#E91E63"></navigation-bar>
+
+<scroll-view class="scrollarea" scroll-y type="list" wx:if="{{group}}">
+  <!-- 团购图片轮播 -->
+  <swiper class="group-swiper" indicator-dots="{{true}}" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FFD700">
+    <swiper-item wx:for="{{group.images}}" wx:key="index">
+      <image class="group-image" src="{{item}}" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+
+  <!-- 团购基本信息 -->
+  <view class="group-header card">
+    <view class="group-title">{{group.title}}</view>
+    <view class="group-rating">
+      <text class="rating-star">★</text>
+      <text class="rating-value">{{group.rating}}</text>
+      <text class="sales-text">已售{{group.sales}}</text>
+    </view>
+    <view class="group-price">
+      <text class="current-price text-primary">¥{{group.priceText}}</text>
+      <text class="original-price">¥{{group.originalPriceText}}</text>
+      <view class="discount-badge">
+        <text class="discount-text">省¥{{group.discountText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 团购描述 -->
+  <view class="group-description card" wx:if="{{group.description}}">
+    <view class="section-title">套餐介绍</view>
+    <text class="description-text">{{group.description}}</text>
+  </view>
+
+  <!-- 适用商户 -->
+  <view class="applicable-stores card" wx:if="{{group.applicableStores && group.applicableStores.length > 0}}">
+    <view class="section-title">适用商户</view>
+    <view class="stores-list">
+      <view 
+        class="store-item" 
+        wx:for="{{group.applicableStores}}" 
+        wx:key="id"
+        data-store="{{item}}"
+        bindtap="viewStore"
+      >
+        <view class="store-info">
+          <text class="store-name">{{item.name}}</text>
+          <text class="store-address text-gray">{{item.address}}</text>
+        </view>
+        <text class="arrow-icon">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 团购详情 -->
+  <view class="group-details card" wx:if="{{group.details}}">
+    <view class="section-title">团购详情</view>
+    <text class="details-text">{{group.details}}</text>
+  </view>
+
+  <!-- 购买须知 -->
+  <view class="group-notice card" wx:if="{{group.notice}}">
+    <view class="section-title">购买须知</view>
+    <text class="notice-text">{{group.notice}}</text>
+  </view>
+
+  <!-- 网友点评 -->
+  <view class="group-comments card" wx:if="{{group.comments && group.comments.length > 0}}">
+    <view class="section-title">网友点评</view>
+    <view class="comments-list">
+      <comment-item wx:for="{{group.comments}}" wx:key="id" comment="{{item}}"></comment-item>
+    </view>
+  </view>
+
+  <!-- 底部占位 -->
+  <view class="bottom-placeholder"></view>
+</scroll-view>
+
+<!-- 底部购买栏 -->
+<view class="bottom-bar" wx:if="{{group}}">
+  <view class="price-info">
+    <text class="price-label">团购价</text>
+    <text class="price-value text-primary">¥{{group.priceText}}</text>
+  </view>
+  <button class="buy-btn btn-primary" bindtap="gobuy">立即抢购</button>
+</view>
+
+<!-- 加载中 -->
+<view wx:if="{{!group}}" class="loading-container">
+  <text>加载中...</text>
+</view>
+

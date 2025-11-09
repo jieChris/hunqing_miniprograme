@@ -1,0 +1,9 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "navigation-bar": "/components/navigation-bar/navigation-bar",
+    "comment-item": "/components/comment-item/comment-item",
+    "product-card": "/components/product-card/product-card"
+  }
+}
+

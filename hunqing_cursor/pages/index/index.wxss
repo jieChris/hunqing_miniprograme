@@ -1,0 +1,86 @@
+/* pages/index/index.wxss */
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--warm-white);
+}
+
+.scrollarea {
+  flex: 1;
+  overflow-y: hidden;
+}
+
+/* Banner样式 */
+.banner-swiper {
+  width: 100%;
+  height: 360rpx;
+  margin-bottom: 30rpx;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 分类区域 */
+.category-section {
+  padding: 0 30rpx 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+  position: relative;
+}
+
+.title-text {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: var(--primary-red);
+  margin-right: 15rpx;
+}
+
+.title-decoration {
+  flex: 1;
+  height: 2rpx;
+  background: linear-gradient(to right, var(--primary-red), transparent);
+}
+
+.category-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+
+.category-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  margin-right: 10rpx;
+}
+
+.category-item:last-child {
+  margin-right: 0;
+}
+
+/* 猜你喜欢区域 */
+.recommend-section {
+  padding: 0 30rpx 30rpx;
+}
+
+.products-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-item {
+  width: 100%;
+}

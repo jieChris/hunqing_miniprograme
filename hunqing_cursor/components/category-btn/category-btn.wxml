@@ -1,0 +1,6 @@
+<!--components/category-btn/category-btn.wxml-->
+<view class="category-btn" bindtap="onTap">
+  <image class="category-icon" src="{{category.icon}}" mode="aspectFit"></image>
+  <text class="category-name">{{category.name}}</text>
+</view>
+
