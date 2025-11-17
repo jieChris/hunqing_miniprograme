@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>拼团活动管理端</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-css-reset/dist/reset.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5.19.3/dist/reset.css" />
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+        background: #f7f8fa;
+        padding: 40px;
+      }
+      .page {
+        max-width: 960px;
+        margin: 0 auto;
+      }
+      h1 {
+        margin-bottom: 24px;
+        font-size: 24px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 10px 30px rgba(15, 48, 78, 0.08);
+        margin-bottom: 24px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #d9d9d9;
+        border-radius: 8px;
+        margin-bottom: 12px;
+      }
+      button {
+        background: #1677ff;
+        border: none;
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border-bottom: 1px solid #f0f0f0;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1>管理端 - 商户与拼团活动</h1>
+      <div class="card">
+        <h2>现有商户</h2>
+        <table id="merchant-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>名称</th>
+              <th>状态</th>
+              <th>联系方式</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>创建商户</h2>
+        <form id="merchant-form">
+          <label for="merchant-name">商户名称</label>
+          <input id="merchant-name" required placeholder="请输入商户名称" />
+          <label for="merchant-contact">联系方式</label>
+          <input id="merchant-contact" placeholder="400-800-1234" />
+          <button type="submit">创建商户</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>新建拼团活动</h2>
+        <form id="group-form">
+          <label for="group-title">活动标题</label>
+          <input id="group-title" required placeholder="如：五月婚礼季拼团" />
+          <label for="group-product-id">关联商品ID</label>
+          <input id="group-product-id" type="number" required min="1" />
+          <label for="group-price">拼团价</label>
+          <input id="group-price" type="number" required />
+          <label for="group-min">成团人数</label>
+          <input id="group-min" type="number" required min="2" value="3" />
+          <button type="submit">发布活动</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const BASE_URL = 'http://localhost:4000/api'
+      const ADMIN_HEADERS = {
+        'Content-Type': 'application/json',
+        'x-user-id': '1' // 管理员账号
+      }
+
+      const merchantTableBody = document.querySelector('#merchant-table tbody')
+      const merchantForm = document.querySelector('#merchant-form')
+      const groupForm = document.querySelector('#group-form')
+
+      async function fetchMerchants() {
+        const res = await fetch(`${BASE_URL}/admin/merchants`, { headers: ADMIN_HEADERS })
+        const json = await res.json()
+        merchantTableBody.innerHTML = json.data
+          .map(
+            (merchant) => `
+          <tr>
+            <td>${merchant.id}</td>
+            <td>${merchant.name}</td>
+            <td>${merchant.status}</td>
+            <td>${merchant.contact || '-'}</td>
+          </tr>`
+          )
+          .join('')
+      }
+
+      merchantForm.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        const payload = {
+          name: document.querySelector('#merchant-name').value,
+          contact: document.querySelector('#merchant-contact').value
+        }
+        await fetch(`${BASE_URL}/admin/merchants`, {
+          method: 'POST',
+          headers: ADMIN_HEADERS,
+          body: JSON.stringify(payload)
+        })
+        merchantForm.reset()
+        fetchMerchants()
+      })
+
+      groupForm.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        const payload = {
+          title: document.querySelector('#group-title').value,
+          productId: Number(document.querySelector('#group-product-id').value),
+          price: Number(document.querySelector('#group-price').value),
+          minParticipants: Number(document.querySelector('#group-min').value)
+        }
+        await fetch(`${BASE_URL}/admin/activities`, {
+          method: 'POST',
+          headers: ADMIN_HEADERS,
+          body: JSON.stringify(payload)
+        })
+        alert('活动已创建')
+        groupForm.reset()
+      })
+
+      fetchMerchants()
+    </script>
+  </body>
+</html>

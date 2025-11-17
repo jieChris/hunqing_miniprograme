@@ -1,0 +1,28 @@
+<view class="dashboard">
+  <view class="header">
+    <text class="title">{{storeName}}</text>
+    <text class="subtitle">门店实时看板</text>
+  </view>
+
+  <view class="stats" wx:if="{{stats}}">
+    <view class="card">
+      <text class="value">{{stats.pendingOrders}}</text>
+      <text class="label">待处理订单</text>
+    </view>
+    <view class="card">
+      <text class="value">{{stats.todayVisitors}}</text>
+      <text class="label">今日访客</text>
+    </view>
+    <view class="card">
+      <text class="value">{{stats.refundRequests}}</text>
+      <text class="label">退款申请</text>
+    </view>
+  </view>
+
+  <view class="suggestions" wx:if="{{suggestions.length}}">
+    <text class="section-title">运营建议</text>
+    <view class="suggestion" wx:for="{{suggestions}}" wx:key="index">
+      <text>{{item}}</text>
+    </view>
+  </view>
+</view>

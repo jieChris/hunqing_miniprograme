@@ -22,11 +22,123 @@ App({
     wx.setStorageSync('BASE_API_URL', url)
   },
 
-  onShow() {
-    // 小程序显示时的逻辑
+  restoreSession() {
+    const token = wx.getStorageSync('token')
+    const refreshToken = wx.getStorageSync('refreshToken')
+    const user = wx.getStorageSync('user')
+    if (token) {
+      this.globalData.token = token
+    }
+    if (refreshToken) {
+      this.globalData.refreshToken = refreshToken
+    }
+    if (user) {
+      this.globalData.user = user
+    }
   },
 
-  onHide() {
-    // 小程序隐藏时的逻辑
+  persistSession(payload) {
+    if (!payload) return
+    const { accessToken, refreshToken, user } = payload
+    if (accessToken) {
+      this.globalData.token = accessToken
+      wx.setStorageSync('token', accessToken)
+    }
+    if (refreshToken) {
+      this.globalData.refreshToken = refreshToken
+      wx.setStorageSync('refreshToken', refreshToken)
+    }
+    if (user) {
+      this.globalData.user = user
+      wx.setStorageSync('user', user)
+    }
+  },
+
+  loginWithWeChat(force = false) {
+    if (this.loginPromise && !force) {
+      return this.loginPromise
+    }
+    this.loginPromise = new Promise((resolve, reject) => {
+      wx.login({
+        timeout: 30000,
+        success: ({ code }) => {
+          if (!code) {
+            reject(new Error('无法获取登录凭证'))
+            return
+          }
+          wx.request({
+            url: `${this.globalData.baseUrl}/auth/login`,
+            method: 'POST',
+            data: { code },
+            success: (res) => {
+              if (res.statusCode === 200) {
+                this.persistSession(res.data)
+                resolve(res.data)
+              } else {
+                reject(res.data)
+              }
+            },
+            fail: reject
+          })
+        },
+        fail: reject
+      })
+    }).finally(() => {
+      this.loginPromise = null
+    })
+    return this.loginPromise
+  },
+
+  refreshToken() {
+    const refreshToken = this.globalData.refreshToken || wx.getStorageSync('refreshToken')
+    if (!refreshToken) {
+      return Promise.reject(new Error('缺少刷新凭证'))
+    }
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: `${this.globalData.baseUrl}/auth/refresh`,
+        method: 'POST',
+        data: { refreshToken },
+        success: (res) => {
+          if (res.statusCode === 200) {
+            this.persistSession(res.data)
+            resolve(res.data)
+          } else {
+            this.clearSession()
+            reject(res.data)
+          }
+        },
+        fail: reject
+      })
+    })
+  },
+
+  logout() {
+    const refreshToken = this.globalData.refreshToken || wx.getStorageSync('refreshToken')
+    return new Promise((resolve) => {
+      if (!refreshToken) {
+        this.clearSession()
+        resolve()
+        return
+      }
+      wx.request({
+        url: `${this.globalData.baseUrl}/auth/logout`,
+        method: 'POST',
+        data: { refreshToken },
+        complete: () => {
+          this.clearSession()
+          resolve()
+        }
+      })
+    })
+  },
+
+  clearSession() {
+    this.globalData.token = null
+    this.globalData.refreshToken = null
+    this.globalData.user = null
+    wx.removeStorageSync('token')
+    wx.removeStorageSync('refreshToken')
+    wx.removeStorageSync('user')
   }
 })

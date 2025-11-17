@@ -1,0 +1,21 @@
+<view class="admin-page">
+  <view class="section">
+    <text class="section-title">商家入驻审核</text>
+    <view class="card" wx:for="{{pendingMerchants}}" wx:key="id">
+      <text class="name">{{item.name}}</text>
+      <text class="desc">提交时间：{{item.submittedAt}}</text>
+      <button size="mini" class="primary">审核通过</button>
+    </view>
+    <view class="empty" wx:if="{{!pendingMerchants.length}}">暂无待审核商家</view>
+  </view>
+
+  <view class="section">
+    <text class="section-title">活动/团购审核</text>
+    <view class="card" wx:for="{{pendingActivities}}" wx:key="id">
+      <text class="name">{{item.title}}</text>
+      <text class="desc">类型：{{item.type}} 提交时间：{{item.submittedAt}}</text>
+      <button size="mini" class="primary">审核通过</button>
+    </view>
+    <view class="empty" wx:if="{{!pendingActivities.length}}">暂无待审核活动</view>
+  </view>
+</view>
