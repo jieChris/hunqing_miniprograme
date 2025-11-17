@@ -1,0 +1,17 @@
+[
+  {
+    "openid": "mock_admin",
+    "nickname": "平台管理员",
+    "role": "admin"
+  },
+  {
+    "openid": "mock_merchant",
+    "nickname": "示例商家",
+    "role": "merchant"
+  },
+  {
+    "openid": "mock_user",
+    "nickname": "普通用户",
+    "role": "user"
+  }
+]

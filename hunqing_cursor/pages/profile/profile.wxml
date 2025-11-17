@@ -1,0 +1,27 @@
+<view class="profile-page">
+  <view class="user-card" wx:if="{{user}}">
+    <image class="avatar" src="{{user.avatarUrl || '/images/common/logo.png'}}" mode="aspectFill"></image>
+    <view class="user-info">
+      <text class="nickname">{{user.nickname || '微信用户'}}</text>
+      <text class="role">{{roleText}}</text>
+    </view>
+  </view>
+
+  <view class="login-placeholder" wx:else>
+    <text class="title">需要登录后才能同步商家/管理员信息</text>
+    <button class="primary" bindtap="handleLogin">立即登录</button>
+  </view>
+
+  <view class="entry-panel" wx:if="{{user}}">
+    <view class="entry" bindtap="handleMerchant" wx:if="{{user.role === 'merchant' || user.role === 'admin'}}">
+      <text class="entry-title">商家管理</text>
+      <text class="entry-desc">查看门店看板、待处理订单</text>
+    </view>
+    <view class="entry" bindtap="handleAdmin" wx:if="{{user.role === 'admin'}}">
+      <text class="entry-title">管理员审核</text>
+      <text class="entry-desc">审核商家入驻与活动</text>
+    </view>
+  </view>
+
+  <button class="logout" bindtap="handleLogout" wx:if="{{user}}">退出登录</button>
+</view>

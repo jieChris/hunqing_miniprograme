@@ -1,9 +1,12 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/profile/profile",
     "pages/store-list/store-list",
     "pages/store-detail/store-detail",
-    "pages/group-detail/group-detail"
+    "pages/group-detail/group-detail",
+    "pages/admin-dashboard/admin-dashboard",
+    "pages/merchant-dashboard/merchant-dashboard"
   ],
   "window": {
     "navigationBarTextStyle": "white",
@@ -11,6 +14,25 @@
     "navigationBarBackgroundColor": "#E91E63",
     "backgroundColor": "#FFF8F0",
     "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#E91E63",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/common/logo.png",
+        "selectedIconPath": "images/common/logo.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/common/placeholder.png",
+        "selectedIconPath": "images/common/placeholder.png"
+      }
+    ]
   },
   "style": "v2",
   "renderer": "skyline",

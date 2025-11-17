@@ -1,0 +1,9 @@
+{
+  "name": "hunqing-server",
+  "version": "1.0.0",
+  "description": "Wedding mini program backend with WeChat login and role based access",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  }
+}
