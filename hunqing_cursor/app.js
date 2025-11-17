@@ -1,19 +1,25 @@
 // app.js
+const DEFAULT_BASE_URL = 'http://127.0.0.1:8787/api'
+
 App({
   globalData: {
     userInfo: null,
-    user: null,
-    baseUrl: 'http://127.0.0.1:3000',
-    cosUrl: 'https://59-1302292078.cos.ap-nanjing.myqcloud.com',
-    token: null,
-    refreshToken: null
+    baseUrl: DEFAULT_BASE_URL,
+    cosUrl: 'https://59-1302292078.cos.ap-nanjing.myqcloud.com'
   },
 
   onLaunch() {
-    this.restoreSession()
-    if (!this.globalData.token) {
-      this.loginWithWeChat()
+    const storedUrl = wx.getStorageSync('BASE_API_URL')
+    if (storedUrl) {
+      this.globalData.baseUrl = storedUrl
     }
+    console.log('小程序启动，使用接口地址：', this.globalData.baseUrl)
+  },
+
+  setBaseUrl(url) {
+    if (!url) return
+    this.globalData.baseUrl = url
+    wx.setStorageSync('BASE_API_URL', url)
   },
 
   restoreSession() {

@@ -77,6 +77,10 @@
 </scroll-view>
 
 <!-- 底部购买栏 -->
+<view class="payment-status" wx:if="{{paymentStatus}}">
+  <text>订单 {{currentOrderId}} 已{{paymentStatus === 'paid' ? '支付成功' : paymentStatus}}</text>
+</view>
+
 <view class="bottom-bar" wx:if="{{group}}">
   <view class="price-info">
     <text class="price-label">团购价</text>

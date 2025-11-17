@@ -4,7 +4,9 @@ import { api } from '../../utils/api.js'
 Page({
   data: {
     groupId: '',
-    group: null              // 团购详情
+    group: null,
+    paymentStatus: '',
+    currentOrderId: ''
   },
 
   onLoad(options) {
@@ -41,7 +43,7 @@ Page({
   },
 
   // 立即抢购 - gobuy函数
-  gobuy() {
+  async gobuy() {
     const group = this.data.group
     if (!group) {
       wx.showToast({
@@ -51,24 +53,74 @@ Page({
       return
     }
 
-    // 这里可以跳转到订单页面或调用支付接口
-    wx.showModal({
-      title: '确认购买',
-      content: `确定要购买"${group.title}"吗？`,
-      confirmText: '立即购买',
-      confirmColor: '#E91E63',
-      success: (res) => {
-        if (res.confirm) {
-          // 处理购买逻辑
-          wx.showToast({
-            title: '购买成功',
-            icon: 'success'
-          })
-          // 实际项目中应该调用支付接口
-          // wx.requestPayment({...})
-        }
+    try {
+      wx.showLoading({ title: '下单中...' })
+      const loginRes = await wx.login()
+      if (!loginRes.code) {
+        throw new Error('微信登录失败，请稍后再试')
       }
+
+      const userProfile = wx.getStorageSync('USER_PROFILE') || {}
+      const orderPayload = {
+        groupId: group.id,
+        productId: group.id,
+        title: group.title,
+        quantity: 1,
+        amount: group.price,
+        loginCode: loginRes.code,
+        userInfo: userProfile
+      }
+      const orderResult = await api.createOrder(orderPayload)
+      wx.hideLoading()
+      this.setData({ currentOrderId: orderResult.orderId })
+      await this.requestPayment(orderResult.paymentParams)
+      wx.showToast({ title: '支付完成', icon: 'success' })
+      const paidOrder = await this.pollOrderStatus(orderResult.orderId)
+      this.setData({ paymentStatus: paidOrder?.status || 'paid' })
+    } catch (error) {
+      wx.hideLoading()
+      console.error('下单失败', error)
+      wx.showToast({
+        title: error?.errMsg || error?.message || '支付失败',
+        icon: 'none'
+      })
+    }
+  },
+
+  requestPayment(paymentParams) {
+    if (!paymentParams) {
+      return Promise.reject(new Error('缺少支付参数'))
+    }
+    return new Promise((resolve, reject) => {
+      wx.requestPayment({
+        ...paymentParams,
+        success: resolve,
+        fail: (error) => {
+          if (error.errMsg && error.errMsg.includes('cancel')) {
+            wx.showToast({ title: '支付已取消', icon: 'none' })
+          }
+          reject(error)
+        }
+      })
     })
+  },
+
+  async pollOrderStatus(orderId, maxRetry = 5) {
+    for (let i = 0; i < maxRetry; i++) {
+      await this.delay(1500)
+      const orderDetail = await api.getOrderDetail(orderId)
+      if (orderDetail.status === 'paid') {
+        return orderDetail
+      }
+      if (['payment_failed', 'refunded'].includes(orderDetail.status)) {
+        throw new Error('支付未完成，请重新尝试')
+      }
+    }
+    throw new Error('支付结果未确认，可稍后在订单列表查看')
+  },
+
+  delay(timeout = 1000) {
+    return new Promise((resolve) => setTimeout(resolve, timeout))
   },
 
   // 查看适用商户

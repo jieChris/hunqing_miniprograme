@@ -160,16 +160,65 @@ export const api = {
       fallbackData.productsByStore[storeId] || []
     )
   },
-  getGroupDetail(groupId) {
-    return withFallback(
-      () => request({ url: `/user/group-buys/${groupId}` }),
-      fallbackData.groupBuys[groupId]
-    )
+
+  // 获取团购详情
+  getGroupDetail(id) {
+    // 模拟数据
+    return Promise.resolve({
+      id: id,
+      title: '浪漫婚礼套餐',
+      price: 19900,
+      originalPrice: 29900,
+      image: getImageUrl('/images/products/product-001.jpg'),
+      images: [
+        getImageUrl('/images/products/product-001.jpg'),
+        getImageUrl('/images/products/product-002.jpg')
+      ],
+      sales: 1234,
+      rating: 4.8,
+      description: '包含婚礼策划、场地布置、司仪服务等一站式服务',
+      applicableStores: [
+        { id: 1, name: '浪漫婚礼策划', address: '北京市朝阳区xxx路xxx号' },
+        { id: 2, name: '唯美婚礼策划', address: '北京市海淀区xxx路xxx号' }
+      ],
+      details: '1. 婚礼策划方案设计\n2. 场地布置服务\n3. 专业司仪服务\n4. 摄影摄像服务',
+      notice: '1. 有效期至2024年12月31日\n2. 需提前30天预约\n3. 不可与其他优惠叠加使用',
+      comments: [
+        {
+          id: 1,
+          userName: '王**',
+          avatar: '',
+          rating: 5,
+          content: '套餐很划算，服务也很到位！',
+          date: '2024-01-20'
+        }
+      ]
+    })
   },
+
+  // 创建订单并获取支付参数
   createOrder(data) {
-    return request({ url: '/user/orders', method: 'POST', data })
+    return request({
+      url: '/orders',
+      method: 'POST',
+      data
+    })
   },
-  joinGroupBuy(groupId, data) {
-    return request({ url: `/user/group-buys/${groupId}/join`, method: 'POST', data })
+
+  // 查询订单状态
+  getOrderDetail(orderId) {
+    return request({
+      url: `/orders/${orderId}`,
+      method: 'GET'
+    })
+  },
+
+  // 发起退款
+  refundOrder(orderId, payload) {
+    return request({
+      url: `/orders/${orderId}/refund`,
+      method: 'POST',
+      data: payload
+    })
   }
 }
