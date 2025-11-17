@@ -548,6 +548,32 @@ export const api = {
         }
       ]
     })
+  },
+
+  // 创建订单并获取支付参数
+  createOrder(data) {
+    return request({
+      url: '/orders',
+      method: 'POST',
+      data
+    })
+  },
+
+  // 查询订单状态
+  getOrderDetail(orderId) {
+    return request({
+      url: `/orders/${orderId}`,
+      method: 'GET'
+    })
+  },
+
+  // 发起退款
+  refundOrder(orderId, payload) {
+    return request({
+      url: `/orders/${orderId}/refund`,
+      method: 'POST',
+      data: payload
+    })
   }
 }
 

@@ -224,3 +224,17 @@ page {
   font-size: 28rpx;
 }
 
+.payment-status {
+  position: fixed;
+  bottom: 140rpx;
+  left: 30rpx;
+  right: 30rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 24rpx 30rpx;
+  box-shadow: 0 10rpx 40rpx rgba(233, 30, 99, 0.12);
+  color: var(--text-dark);
+  font-size: 26rpx;
+  z-index: 90;
+}
+
