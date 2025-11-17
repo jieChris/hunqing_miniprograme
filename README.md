@@ -44,3 +44,6 @@
 ## 管理端
 
 `admin/index.html` 为极简后台，可在浏览器直接打开。该页面会以管理员身份调用 `/api/admin/merchants`、`/api/admin/activities`，用于演示商户创建与拼团发布流程。
+# -
+实训课程，代码完全由cursor编写。
+不完全由cursor编写了，因为用codex完善了其他需求。
