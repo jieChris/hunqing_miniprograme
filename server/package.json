@@ -1,15 +1,9 @@
 {
-  "name": "wedding-backend",
+  "name": "hunqing-server",
   "version": "1.0.0",
-  "type": "commonjs",
-  "main": "index.js",
+  "description": "Wedding mini program backend with WeChat login and role based access",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies": {
-    "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
-    "express": "^4.19.2",
-    "uuid": "^9.0.1"
+    "start": "node src/index.js"
   }
 }

@@ -1,24 +1,56 @@
-const app = getApp()
+const showError = (message) => {
+  wx.showToast({
+    title: message || '请求失败',
+    icon: 'none'
+  })
+}
 
-export function request(options = {}) {
+const request = (options, retry = false) => {
+  const app = getApp()
+  const baseUrl = app?.globalData?.baseUrl || ''
+  const token = app?.globalData?.token || wx.getStorageSync('token')
+  const header = {
+    'Content-Type': 'application/json',
+    ...options.header
+  }
+  if (token) {
+    header.Authorization = `Bearer ${token}`
+  }
+
   return new Promise((resolve, reject) => {
-    const baseUrl = app?.globalData?.baseUrl || ''
     wx.request({
       url: `${baseUrl}${options.url}`,
       method: options.method || 'GET',
       data: options.data || {},
-      header: {
-        'Content-Type': 'application/json',
-        ...options.header
-      },
-      success: (res) => {
-        if (res.statusCode >= 200 && res.statusCode < 300) {
-          resolve(res.data?.data ?? res.data)
-        } else {
-          reject(res.data)
+      header,
+      success: async (res) => {
+        if (res.statusCode === 200) {
+          resolve(res.data)
+          return
         }
+
+        if (res.statusCode === 401 && !retry && app?.refreshToken) {
+          try {
+            await app.refreshToken()
+            const data = await request(options, true)
+            resolve(data)
+            return
+          } catch (error) {
+            app?.logout?.()
+          }
+        }
+
+        showError(res.data?.message)
+        reject(res)
       },
-      fail: reject
+      fail: (err) => {
+        showError('网络错误')
+        reject(err)
+      }
     })
   })
+}
+
+module.exports = {
+  request
 }
